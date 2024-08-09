@@ -32,6 +32,7 @@ uses
   BrowseFunc in '..\Components\BrowseFunc.pas',
   IDE.SignToolsForm in 'Src\IDE.SignToolsForm.pas' {SignToolsForm},
   IDE.InputQueryComboForm in 'Src\IDE.InputQueryComboForm.pas',
+  IDE.InputQueryMemoForm in 'Src\IDE.InputQueryMemoForm.pas',
   ScintInt in '..\Components\ScintInt.pas',
   ScintEdit in '..\Components\ScintEdit.pas',
   IDE.ScintStylerInnoSetup in 'Src\IDE.ScintStylerInnoSetup.pas',
@@ -66,7 +67,8 @@ uses
   Shared.Struct in 'Src\Shared.Struct.pas',
   SHA1 in '..\Components\SHA1.pas',
   Shared.DotNetVersion in 'Src\Shared.DotNetVersion.pas',
-  isxclasses_wordlists_generated in '..\ISHelp\isxclasses_wordlists_generated.pas';
+  isxclasses_wordlists_generated in '..\ISHelp\isxclasses_wordlists_generated.pas',
+  IDE.ImagesModule in 'Src\IDE.ImagesModule.pas' {ImagesModule: TDataModule};
 
 {$SETPEOSVERSION 6.1}
 {$SETPESUBSYSVERSION 6.1}
@@ -217,6 +219,7 @@ begin
       Title := SCompilerFormCaption;
   end;
 
+  Application.CreateForm(TImagesModule, ImagesModule);
   Application.CreateForm(TMainForm, MainForm);
   Application.Run;
 end.

@@ -29,8 +29,10 @@ type
     procedure AddButtonClick(Sender: TObject);
     procedure RemoveButtonClick(Sender: TObject);
     procedure EditButtonClick(Sender: TObject);
+    procedure SignToolsListBoxDblClick(Sender: TObject);
   private
     FSignTools: TStringList;
+    procedure CommandDocImageClick(Sender: TObject);
     procedure UpdateSignTools;
     procedure UpdateSignToolsButtons;
     procedure SetSignTools(SignTools: TStringList);
@@ -46,7 +48,9 @@ type
 implementation
 
 uses
-  Windows, Messages, IDE.HelperFunc, Shared.CommonFunc.Vcl, Dialogs, SysUtils;
+  Windows, Messages, SysUtils, Dialogs,
+  Shared.CommonFunc.Vcl, IDE.InputQueryMemoForm, IDE.HelperFunc,
+  IDE.HtmlHelpFunc;
 
 {$R *.DFM}
 
@@ -86,6 +90,12 @@ begin
   SendMessage(Handle, WM_SETICON, ICON_BIG, 0);
 end;
 
+procedure TSignToolsForm.CommandDocImageClick(Sender: TObject);
+begin
+  if Assigned(HtmlHelp) then
+    HtmlHelp(GetDesktopWindow, PChar(GetHelpFile), HH_DISPLAY_TOPIC, Cardinal(PChar('topic_setup_signtool.htm')));
+end;
+
 procedure TSignToolsForm.CreateParams(var Params: TCreateParams);
 begin
   inherited CreateParams(Params);
@@ -117,7 +127,7 @@ begin
       end;
     end;
 
-    if InputQuery(Caption, 'Command of the Sign Tool:', SignToolCommand) then begin
+    if InputQueryMemo(Caption, 'Command of the Sign Tool:', SignToolCommand, True, CommandDocImageClick) then begin
       if SignToolCommand = '' then begin
         AppMessageBox(PChar('Invalid command.'), PChar(Caption), MB_OK or MB_ICONSTOP);
         Exit;
@@ -174,6 +184,12 @@ end;
 procedure TSignToolsForm.SignToolsListBoxClick(Sender: TObject);
 begin
   UpdateSignToolsButtons;
+end;
+
+procedure TSignToolsForm.SignToolsListBoxDblClick(Sender: TObject);
+begin
+  if EditButton.Enabled then
+    EditButton.Click;
 end;
 
 end.
