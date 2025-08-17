@@ -13,7 +13,7 @@ unit Shared.Struct;
 interface
 
 uses
-  Windows, Shared.Int64Em, SHA256;
+  Windows, SHA256;
 
 const
   SetupTitle = 'Inno Setup';
@@ -33,7 +33,7 @@ const
     this file it's recommended you change SetupID. Any change will do (like
     changing the letters or numbers), as long as your format is
     unrecognizable by the standard Inno Setup. }
-  SetupID: TSetupID = 'Inno Setup Setup Data (6.5.0)';
+  SetupID: TSetupID = 'Inno Setup Setup Data (6.5.2)';
   UninstallLogID: array[Boolean] of TUninstallLogID =
     ('Inno Setup Uninstall Log (b)', 'Inno Setup Uninstall Log (b) 64-bit');
   MessagesHdrID: TMessagesHdrID = 'Inno Setup Messages (6.5.0) (u)';
@@ -119,7 +119,7 @@ type
     WizardStyle: TSetupWizardStyle;
     WizardSizePercentX, WizardSizePercentY: Integer;
     WizardImageAlphaFormat: (afIgnored, afDefined, afPremultiplied); // Must be same as Graphics.TAlphaFormat
-    ExtraDiskSpaceRequired: Integer64;
+    ExtraDiskSpaceRequired: Int64;
     SlicesPerDisk: Integer;
     UninstallLogMode: (lmAppend, lmNew, lmOverwrite);
     DirExistsWarning: (ddAuto, ddNo, ddYes);
@@ -129,7 +129,7 @@ type
     LanguageDetectionMethod: TSetupLanguageDetectionMethod;
     CompressMethod: TSetupCompressMethod;
     DisableDirPage, DisableProgramGroupPage: TSetupDisablePage;
-    UninstallDisplaySize: Integer64;
+    UninstallDisplaySize: Int64;
     Options: set of TSetupHeaderOption;
   end;
 const
@@ -179,7 +179,7 @@ type
     Options: TSetupTypeOptions;
     Typ: TSetupTypeType;
     { internally used: }
-    Size: Integer64;
+    Size: Int64;
   end;
 const
   SetupComponentEntryStrings = 5;
@@ -188,14 +188,14 @@ type
   PSetupComponentEntry = ^TSetupComponentEntry;
   TSetupComponentEntry = packed record
     Name, Description, Types, Languages, CheckOnce: String;
-    ExtraDiskSpaceRequired: Integer64;
+    ExtraDiskSpaceRequired: Int64;
     Level: Integer;
     Used: Boolean;
     MinVersion, OnlyBelowVersion: TSetupVersionData;
     Options: set of (coFixed, coRestart, coDisableNoUninstallWarning,
       coExclusive, coDontInheritCheck);
     { internally used: }
-    Size: Integer64;
+    Size: Int64;
   end;
 const
   SetupTaskEntryStrings = 6;
@@ -251,7 +251,7 @@ type
     MinVersion, OnlyBelowVersion: TSetupVersionData;
     LocationEntry: Integer;
     Attribs: Integer;
-    ExternalSize: Integer64;
+    ExternalSize: Int64;
     PermissionsEntry: Smallint;
     Options: set of (foConfirmOverwrite, foUninsNeverUninstall, foRestartReplace,
       foDeleteAfterInstall, foRegisterServer, foRegisterTypeLib, foSharedFile,
@@ -274,10 +274,10 @@ type
   PSetupFileLocationEntry = ^TSetupFileLocationEntry;
   TSetupFileLocationEntry = packed record
     FirstSlice, LastSlice: Integer;
-    StartOffset: Longint;
-    ChunkSuboffset: Integer64;
-    OriginalSize: Integer64;
-    ChunkCompressedSize: Integer64;
+    StartOffset: Int64;
+    ChunkSuboffset: Int64;
+    OriginalSize: Int64;
+    ChunkCompressedSize: Int64;
     SHA256Sum: TSHA256Digest;
     SourceTimeStamp: TFileTime;
     FileVersionMS, FileVersionLS: DWORD;
@@ -379,7 +379,7 @@ type
 
   { A TDiskSliceHeader record follows DiskSliceID in a SETUP-*.BIN file }
   TDiskSliceHeader = packed record
-    TotalSize: Cardinal;
+    TotalSize: Int64;
   end;
 
   { A TMessageHeader record follows MessagesHdrID in a SETUP.MSG file }
